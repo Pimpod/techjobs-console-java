@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by LaunchCode
@@ -71,12 +72,12 @@ public class JobData {
         loadData();
 
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
-
+        String lowercaseSearch = value.toLowerCase(Locale.ROOT);
         for (HashMap<String, String> row : allJobs) {
 
-            String aValue = row.get(column);
+            String aValue = row.get(column).toLowerCase(Locale.ROOT);
 
-            if (aValue.contains(value)) {
+            if (aValue.contains(lowercaseSearch)) {
                 jobs.add(row);
             }
         }
@@ -86,10 +87,12 @@ public class JobData {
 
     public static ArrayList<HashMap<String,String>> findByValue(String searchValue) {
         loadData();
+        String lowercaseSearch = searchValue.toLowerCase(Locale.ROOT);
         ArrayList<HashMap<String, String>> fbvJobs = new ArrayList<>();
         for (HashMap<String, String> fullJob: allJobs){
             for (String keys: fullJob.keySet()){
-                if (fullJob.get(keys).contains(searchValue) && !fbvJobs.contains(fullJob)){
+                String lowercaseValue = fullJob.get(keys).toLowerCase(Locale.ROOT);
+                if (lowercaseValue.contains(lowercaseSearch) && !fbvJobs.contains(fullJob)){
                     fbvJobs.add(fullJob);
 
                 }
